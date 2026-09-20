@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { --accent: #5B8CFF; --accent-glow: rgba(91,140,255,0.2); }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* ── Scrollbar ──────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(91,140,255,0.3); border-radius: 2px; }
+
+/* ── Noise overlay ──────────────────────────────────────────────────────── */
+.noise::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.018;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 150px;
+}
+
+/* ── Glass — DARK ───────────────────────────────────────────────────────── */
+.glass-dark {
+  background: rgba(10, 14, 23, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 0 0 1px rgba(91,140,255,0.1), inset 0 0 30px rgba(91,140,255,0.03);
+}
+
+.glass-card-dark {
+  background: rgba(13, 18, 30, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  position: relative;
+}
+
+/* ── Glass — LIGHT (classy blue-tinted) ────────────────────────────────── */
+.glass-light {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 2px 12px rgba(91,140,255,0.1), 0 0 0 1px rgba(91,140,255,0.15);
+}
+
+.glass-card-light {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 1px 4px rgba(91,140,255,0.08), 0 4px 24px rgba(91,140,255,0.06);
+  position: relative;
+}
+
+/* ── Card hover edge glow ───────────────────────────────────────────────── */
+.glass-card-dark::before,
+.glass-card-light::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(91,140,255,0.4) 0%, rgba(91,140,255,0.05) 40%, rgba(165,192,255,0.35) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.glass-card-dark:hover::before,
+.glass-card-light:hover::before { opacity: 1; }
+
+/* ── Accent ─────────────────────────────────────────────────────────────── */
+.accent-gradient { background: linear-gradient(135deg, #5B8CFF 0%, #A5C0FF 100%); }
+.accent-gradient-text {
+  background: linear-gradient(135deg, #5B8CFF 0%, #A5C0FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.glow-accent    { box-shadow: 0 0 20px rgba(91,140,255,0.3), 0 0 40px rgba(91,140,255,0.1); }
+.glow-accent-sm { box-shadow: 0 0 10px rgba(91,140,255,0.2); }
+
+/* ── Mesh backgrounds ───────────────────────────────────────────────────── */
+.mesh-bg {
+  background-image:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(91,140,255,0.13) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 80% 60%, rgba(91,140,255,0.07) 0%, transparent 60%);
+}
+.mesh-bg-light {
+  background-image:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(91,140,255,0.1) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 80% 60%, rgba(91,140,255,0.05) 0%, transparent 60%);
+}
+
+/* ── Tilt glow (mouse-follow) ───────────────────────────────────────────── */
+.tilt-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* ── Terminal cursor ────────────────────────────────────────────────────── */
+.cursor-blink {
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  background: #5B8CFF;
+  vertical-align: middle;
+  margin-left: 2px;
+  animation: blink 1s step-end infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* ── Float animation ────────────────────────────────────────────────────── */
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+.animate-float { animation: float 6s ease-in-out infinite; }
+
+/* ── Skill chip hover ───────────────────────────────────────────────────── */
+.skill-chip { transition: all 0.2s ease; cursor: default; }
+.skill-chip:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(91,140,255,0.25); }
+
+/* ── Active nav ─────────────────────────────────────────────────────────── */
+.nav-active { color: #5B8CFF; }
+
+/* ── Project card ───────────────────────────────────────────────────────── */
+.project-card { transition: box-shadow 0.3s ease; transform-style: preserve-3d; will-change: transform; }
